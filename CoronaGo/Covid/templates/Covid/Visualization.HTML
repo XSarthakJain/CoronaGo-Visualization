@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Visualize Covid Data</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<meta name="viewport" content="width-device-width, initial-state=1/">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+        <style type="text/css">
+            *{
+                margin:0;
+                padding:0;
+                box-sizing: border-box;
+        
+            }
+            ul li a{
+                color:white;
+            }
+
+			#map{
+				width:100vw;
+				height:100vh;
+			}
+
+			table tr th{
+			border:2px solid black;
+			padding:2% 25% 2% 25%;
+			padding-left:25px;
+			padding-right:25px;
+		}
+		#Infected{
+			display:inline-block;padding:10% 10% 10% 10%;border-radius:5px 5px 5px 5px;margin-bottom:2%;background-color:#ecf0f3;box-shadow:13px 13px 20px #cbced1,
+				-13px -13px 20px #ffffff;border-bottom:5px solid #002C56;color:#002C56;
+		}
+		#Infected:hover{
+			background:#002C56;
+			color:white;
+		}
+		#Deaths{
+			display:inline-block;padding:10% 10% 10% 10%;border-radius:5px 5px 5px 5px;color:white; 
+		background-color:#ecf0f3;box-shadow:13px 13px 20px #cbced1,
+				-13px -13px 20px #ffffff;border-bottom:5px solid rgba(255, 0, 0, 0.6);color:rgba(255, 0, 0, 0.6);
+		}
+		#Deaths:hover{
+			background:rgba(255, 0, 0, 0.6);
+			color:white;	
+		}
+
+		#NewCases{
+			display:inline-block;padding:10% 10% 10% 10%;border-radius:5px 5px 5px 5px; color:white;margin-bottom:2%;
+			background-color:#ecf0f3;box-shadow:13px 13px 20px #cbced1,
+				-13px -13px 20px #ffffff;border-bottom:5px solid rgb(102, 153, 153);color:rgb(102, 153, 153);
+		}
+
+		#NewCases:hover{
+			background-color: rgb(102, 153, 153);
+			color:white;
+		}
+
+		#Contain_Details{
+			color:grey;
+		}
+
+		#Contain_Details:hover{
+			color:#00BFA6;
+		}
+		p{
+			color:grey;
+			font-weight: bolder;
+		}
+		</style>
+
+</head>
+<body>
+<!--Add Header-->
+
+
+<nav style="background:grey;padding-bottom: 10px;padding-top:5px;">
+	
+          
+          
+  
+  
+    <ul  style="display:flex;list-style:none;">
+
+    	<li>
+    		
+<a href="/" style='display:flex;text-decoration: none;'><span style="font-weight:bolder;color:#00BFA6;font-family: 'Roboto Condensed', sans-serif;font-size:3em;padding-top:8px;padding-left:15px;">CoronaGo</span></a>
+
+
+    	</li>
+      <li >
+                  <a href="/" style="color:white;text-decoration: none; margin:10px;width:100%;font-size:1.5em;padding-top:10px;"   class="nav-link">Home</a>
+              </li>
+
+               <li >
+        <a href="#" style="color:white;text-decoration: none; margin:10px;width:100%;font-size:1.5em;padding-top:10px;"   class="nav-link" onclick="MapRepresentation()">Map</a>
+      </li>
+              <li >
+        <a  style="color:white;text-decoration: none;width:100%;margin:10px;font-size:1.5em;padding-top:10px;" href="#" onclick="TableRepresentation()" class="nav-link">Table</a>
+      </li>
+           </ul>
+  
+        </nav>
+
+
+        
+   {%load static%}    
+<center>
+<div id='map' style="margin-top:-20px;width:100%"></div>
+</center>
+<br><br>
+
+
+<div id="TableForm">
+	<center><h4 style="border-left:5px solid grey;center;display:inline-block;padding:5px;">Report coronavirus cases</h4></center><br>
+	<div class="container">
+		<center>
+		<div class="row">
+			<div class="col-sm-4">
+			<div  id="Infected">
+				<p style="text-align: left;">Infected</p>
+				<h5 >{{totalCase}}</h5>
+				<h4 style="text-align: left;">Today</h4>
+				<h5 style="text-align: left;">Number of active cases of Covid-19.</h5>
+			</div>
+			
+			</div>
+			<div class="col-sm-4">
+			<div style=""
+			id="NewCases">
+			
+			<p style="text-align: left;">New Cases</p>
+			<h5>{{NewCase}}</h5>
+			<h4 style="text-align: left;">Today</h4>
+				<h5 style="text-align: left;">Number of new cases of Covid-19.</h5>
+			</div>
+			</div>
+
+
+			<div class="col-sm-4">
+			<div style=""id="Deaths">
+			<div>
+			<p style="text-align: left;">Deaths</p>	
+			<h5>{{DeathCase}}
+			</h5>
+			<h4 style="text-align: left;">Today</h4>
+				<h5 style="text-align: left;">Number of deaths cases of Covid-19.</h5>
+			</div>
+		</div>
+			</div>
+		</div>
+		<br><br>
+		<table id="Result_Div" class="table table-bordered" align="center">
+			<thead>
+			
+			</thead>
+		</table>
+	</center>
+	</div>
+	<center>
+	<div style="position:absolute;top:15%;left:2%;background: rgba(0,0,0,0.1);">
+	        	<center><h2>World Infected's Areas</h2></center>
+	        </div></center>
+</div>
+
+<footer style="background-color: grey;color:white;width:100%;margin-bottom:0px;padding:8px;">
+    <p style="text-align:center;padding-top:8px;color:white;"> Copyright © <span id="year" ></span> <span style="color:#00BFA6;">CoronaGo</span> all rights reserved</p>
+</footer>
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FydGhha2phaW4iLCJhIjoiY2s5OHRpbWc1MDVkYzNqcGZzYzRiYW83cCJ9.MFGWTrehq7rxvNQukVmQ0w';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/dark-v10',
+zoom:0,
+});
+</script>
+
+
+<script type="text/javascript">
+	
+{%load static%}
+
+
+
+
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2FydGhha2phaW4iLCJhIjoiY2s5OHRpbWc1MDVkYzNqcGZzYzRiYW83cCJ9.MFGWTrehq7rxvNQukVmQ0w';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/dark-v10',
+zoom:0,
+});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	
+
+	function UpdateMap()
+
+{
+
+	fetch('/data/')
+	.then(response => response.json())
+	.then(rsp => {
+		console.log(rsp.latitude)
+		var element=0
+		for (element=0;element < rsp.latitude.length;element++) {
+			latitude=rsp.latitude[element];
+			longitude=rsp.longitude[element];
+			cases=rsp.Infected[element];
+			if(cases < 1000){
+				colors="rgb(255,0,0)";
+			}
+			else{
+				colors="rgb(128,0,0)";
+			}
+			new mapboxgl.Marker({
+			draggable: false,
+			color:colors,
+			
+			})
+			.setLngLat([longitude, latitude])
+			.addTo(map);
+
+			var table = document.getElementById("Result_Div");
+			  var row = table.insertRow(0);
+							  
+			  var cell2 = row.insertCell(0);
+			  var cell3 = row.insertCell(0);
+			  var cell4 = row.insertCell(0);
+			  var cell1 = row.insertCell(0);
+			  
+			  cell3.innerHTML = rsp.Death[element];
+			  cell2.innerHTML = rsp.NewCases[element];
+			  cell4.innerHTML = rsp.Infected[element];
+			  cell1.innerHTML = rsp.CountryName[element];
+			  row.style.fontWeight ="bolder";
+			  if(rsp.Infected[element]<1000){
+			  	row.setAttribute("class", "alert alert-success");
+			  }
+			  else if(rsp.Infected[element]>1000 && rsp.Infected[element]<10000){
+			  	row.setAttribute("class", "alert alert-warning");
+			  }
+			  else{
+			  	row.setAttribute("class", "alert alert-danger");	
+			  }
+
+			  
+			 
+		}
+		if(element==rsp.latitude.length){
+		headingFun();
+	}
+
+
+	})
+}
+
+UpdateMap();
+
+function headingFun(){
+var table = document.getElementById("Result_Div");
+			  var row = table.insertRow(0);
+			  
+			  var cell2 = row.insertCell(0);
+			  var cell3 = row.insertCell(0);
+			  var cell4 = row.insertCell(0);
+			  var cell1 = row.insertCell(0);
+			  
+			  cell3.innerHTML = "Death Cases";
+			  cell2.innerHTML = "New Cases";
+			  cell4.innerHTML = "Infected Cases";
+			  cell1.innerHTML = "Country Name";
+			  cell1.style.borderStyle = "2px solid black";
+			  cell2.style.borderStyle = "2px solid black";
+			  cell3.style.borderStyle = "2px solid black";
+			  cell4.style.borderStyle = "2px solid black";
+			  cell1.style.padding="2% 25px 2% 25px";
+			  cell2.style.padding="2% 25px 2% 25px";
+			  cell3.style.padding="2% 25px 2% 25px";
+			  cell4.style.padding="2% 25px 2% 25px";
+			  row.style.fontWeight ="bolder";
+			  row.style.color="grey";
+
+}
+
+
+
+function Copyright(){
+                var d = new Date();
+                var year=d.getFullYear();
+                document.getElementById("year").innerHTML=year;
+            }
+
+            Copyright();
+
+
+
+            function MapRepresentation(){
+
+            	document.getElementById("map").style.display="block";
+            	document.getElementById("TableForm").style.display="none";
+
+            }
+
+            TableRepresentation();
+
+            function TableRepresentation(){
+            	document.getElementById("map").style.display="none";
+            	document.getElementById("TableForm").style.display="block";
+            	
+            }
+
+            
+</script>
+
+</html>

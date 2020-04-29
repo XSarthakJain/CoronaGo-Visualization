@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>India Map Statistics</title>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <meta name="viewport" content="width-device-width, initial-state=1/">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	
+        <style type="text/css">
+            *{
+                padding:0;
+                margin:0;
+                box-sizing:border-box;
+            }
+            
+             ul li a{
+                color:white;
+            }
+        	
+        	.Msg1{
+        		text-align: left;width:200px;align-content: right;box-shadow:10px 10px 20px #cbced1,
+				-10px -10px 20px #cbced1;border-bottom:5px solid #002C56;color:#002C56;padding:2% 2% 2% 2%;border-radius:8px;
+				height:180px;margin-top:5%;
+        	}
+
+
+        	.Msg2{
+        		text-align: left;width:200px;align-content: right;box-shadow:10px 10px 20px #cbced1,
+				-10px -10px 20px #cbced1;border-bottom:5px solid #002C56;color:#002C56;padding:2% 2% 2% 2%;border-radius:8px;
+				height:180px;margin-top:5%;
+				
+			}
+
+
+        	.Msg3{
+        		text-align: left;width:200px;align-content: right;box-shadow:10px 10px 20px #cbced1,
+				-10px -10px 20px #cbced1;border-bottom:5px solid #002C56;color:#002C56;padding:2% 2% 2% 2%;border-radius:8px;
+				height:180px;margin-top:5%;
+        	}
+
+        	.Msg1:hover{
+        		background-color: rgba(62, 149, 205, 0.2);
+        	}
+
+        	.Msg2:hover{
+        		background-color: rgba(255, 0, 0, 0.2);
+        	}
+
+        	.Msg3:hover{
+        		background-color: rgba(30, 130, 76, 0.2);
+        	}
+
+        	.my-custom-scrollbar {
+			position: relative;
+			height: 200px;
+			overflow: auto;
+			}
+			.table-wrapper-scroll-y {
+			display: block;
+			}
+
+
+			tr:hover{
+				background-color: grey;
+			}
+
+			select:focus{
+				outline:0;
+				box-shadow:0,0,0,0.2rem rgba(0,123,255,.25);
+			}
+
+
+
+        </style>
+    </head>
+    <body>
+    
+<!--Add Header-->
+
+
+<div style="background:grey;">
+<a  href="/" style="text-decoration: none;"><h1 style="font-weight:bolder;color:#00BFA6;font-family: 'Roboto Condensed', sans-serif;margin-top:-5px;padding:2%;padding-bottom:-2%;font-size:3em;">CoronaGo</h1></a>
+
+</div>
+    
+<div class="container-fluid">
+        <div>{%load static%}
+            <center><h1 style="justify-content:center;font-weight:bolder;">C<span><img src="{%static 'Covid/CoronaIcon.svg'%}" style="width:50px;height:50px;"></span>vid-19</h1><br>
+
+            <div class="container">
+            	<div class="class">
+            		<div class="col-sm-4">
+            			<div style="border-bottom:8px solid rgba(62, 149, 205, 1);" class="Msg1">
+            				<p style="color:grey;font-weight:bolder;">Infected</p>
+            				<h4 id="InfectedCaseCol" style="font-weight:bolder;">Number</h4>
+            				
+            				<p style="color:grey;">Number of active cases of Covid-19 in India.</p>
+            			</div>
+            		</div>
+            		<div class="col-sm-4">
+            			<div style="border-bottom:8px solid rgba(255, 0, 0, 0.8);" class="Msg2">
+            				<p style="color:grey;font-weight:bolder;">Death</p>
+            				<h4 style="font-weight:bolder;" id="DeathCaseCol">Number</h4>
+            				
+            				<p style="color:grey;">Number of death cases of Covid-19 in India.</p>
+            			</div>
+            		</div>
+            		<div class="col-sm-4">
+            			<div style="border-bottom:8px solid rgba(30, 130, 76, 1);" class="Msg3">
+            				<p style="color:grey;font-weight: bolder;">Recovered</p>
+            				<h4 id="RecoveredCaseCol" style="font-weight:bolder;">Number</h4>
+            				
+            				<p style="color:grey;">Number of recovered cases of Covid-19 in India.</p>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+
+
+            </center>
+        
+        </div>
+        <div class="container">
+        <div style="margin-top:30px;margin-bottom: 30px">
+            <div style="justify-content: center;align-items: center;">
+            	
+                <canvas id="InfectedPeople" ></canvas>
+                <br><hr><br>
+                <canvas id="DeathChart" ></canvas>
+                <br><hr><br>
+                <canvas id="RecoveredChart" ></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <center>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" style="position:fixed;bottom:5px;right:5px;">
+		  Country Code
+		</button>
+		</center>
+		<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight:bolder;">Country Code</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+   <table class="table" id="Code_Div">
+    <thead>
+      <tr>
+        
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        
+      </tr>
+      <tr>
+        
+        
+      </tr>
+    </tbody>
+  </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container" style="margin-top:5%;margin-bottom: 1%;">
+	<center>
+	<div class="table-wrapper-scroll-y my-custom-scrollbar">
+	<table class="table table-bordered" id="StateTableRep">
+    <thead>
+      <tr>
+        
+      </tr>
+    </thead>
+    <tbody>
+      
+    </tbody>
+  </table>
+</div>
+</center>
+</div>
+
+
+<hr>
+
+
+
+
+<center>
+	<div style="">
+		<h3 style="color:grey;font-weight:bolder;">India's state</h3>
+		<select id="StateOpt" style="width:25%;border:none;border-bottom:2px solid #00BFA6;color:grey;font-weight:bold;" onchange="CoronaDistrict()">
+			<option>State</option>
+			<option>India</option>
+		</select>
+	</div>
+</center>
+
+<div class="container">
+        <div style="">
+            <div style="justify-content: center;align-items: center;">
+            	
+                <canvas id="DistrictArea"></canvas>
+                
+                
+                </div>
+            </div>
+</div>
+
+<div class="container" style="margin-bottom:3%;">
+	<center>
+	<div class="table-wrapper-scroll-y my-custom-scrollbar">
+	<table class="table table-bordered" id="DistrictTable">
+    <thead>
+      <tr>
+        
+      </tr>
+    </thead>
+    <tbody>
+      
+    </tbody>
+  </table>
+</div>
+</center>
+</div>
+
+
+
+
+
+</div>
+
+<footer style="background-color: grey;color:white;width:100%;margin-bottom:0px;padding:8px;">
+    <p style="text-align:center;padding-top:8px;">Copyright © <span id="year" ></span> <span style="color:#00BFA6;">CoronaGo</span> all rights reserved</p>
+</footer>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+        <script>
+            function Copyright(){
+                var d = new Date();
+                var year=d.getFullYear();
+                document.getElementById("year").innerHTML=year;
+            }
+
+            Copyright();
+
+
+        	var Dist;
+        	function CoronaDistrict(){
+
+        	var v=document.getElementById("StateOpt").value;
+        	var v1=document.getElementById("DistrictTable");
+        	v1.innerHTML="";
+
+        	
+        	Dist=v;
+        	
+        	$.ajax({
+        		method:'POST',
+        		url:'{% url 'data2' %}',
+        		data:{
+        			State:v
+        		}
+        		
+        	})
+        	.done(function(data){
+        			console.log(data);
+        			DistrictFun(data);
+
+        			
+        			for(var i=data.DistrictName.length-1;i>=0;i--){
+                    	var table = document.getElementById("DistrictTable");
+                    	  {
+						  var row = table.insertRow(0);
+
+						  var cell1 = row.insertCell(0);
+						  var cell3 = row.insertCell(0);
+						  var cell2 = row.insertCell(0);
+						  cell3.innerHTML = data.RecoveredCase[i];
+						  cell2.innerHTML = data.ConfirmedCase[i];
+						  cell1.innerHTML = data.DistrictName[i];
+			  			  if(data.ConfirmedCase[i]>1000){
+			  			  	row.style.backgroundColor="rgba(255, 0, 0, 0.1)";
+			  			  }
+			  			  else{
+			  			  	row.style.backgroundColor="rgba(62, 149, 205, 0.1)";	
+			  			  }
+			  			}
+
+			  			}
+
+			  			
+
+						  var table2 = document.getElementById("DistrictTable");
+						  
+						  var row2 = table2.insertRow(0);
+										  
+						  var cell4 = row2.insertCell(0);
+						  var cell5 = row2.insertCell(0);
+						  var cell6 = row2.insertCell(0);
+						  
+						  
+						  cell6.innerHTML = "Confirmed";
+						  cell5.innerHTML = "Recovered";
+						  cell4.innerHTML = "District"; 
+			  			  
+			  			  row2.style.fontWeight ="bolder";
+			  
+
+
+
+        		})
+        	.fail(function(data){
+                    console.log('Error!');
+                })
+        	
+        }
+
+
+
+            $.ajax({
+                method:'GET',
+                url:'/data1/',
+                success:function(data){
+                    Death(data);
+                    Recovered(data);
+                    console.log(data);
+                    for(var i=0;i<data.State_Code.length;i++){
+                    	var table = document.getElementById("Code_Div");
+						  var row = table.insertRow(0);
+										  
+						  var cell2 = row.insertCell(0);
+						  var cell3 = row.insertCell(0);
+						  cell2.innerHTML = data.State_Code[i];
+			  			  cell3.innerHTML = data.StateName[i];
+
+			  			  //Add Element in DropDown List
+			  			  var Opt = document.getElementById("StateOpt");
+			  			  var Op=document.createElement("option");
+			  			  Op.text=data.State_Code[i];
+			  			  Opt.add(Op);
+			  
+						}
+						var table = document.getElementById("Code_Div");
+						  var row = table.insertRow(0);
+										  
+						  var cell2 = row.insertCell(0);
+						  var cell3 = row.insertCell(0);
+						  cell2.innerHTML = "State name";
+			  			  cell3.innerHTML = "State code";
+			  			  row.style.fontWeight ="bolder";
+			  
+
+                    document.getElementById("InfectedCaseCol").innerHTML=data.InfectedCount;
+                    document.getElementById("DeathCaseCol").innerHTML=data.DeathCount;
+                    document.getElementById("RecoveredCaseCol").innerHTML=data.RecoveredCount;
+					new Chart(document.getElementById("InfectedPeople"), {
+                        type: 'line',
+                        data: {
+                            labels: data.StateName,
+                            datasets: [
+                                {
+                                    label: "Corona Confirmed Cases",
+                                    backgroundColor: "rgba(62, 149, 205, 0.5)",
+                                    borderColor : "rgba(62, 149, 205, 1)",
+                                    pointBackgroundColor: "rgba(62, 149, 205, 1)",
+                                    data: data.ConfirmedCase,
+                                },
+                                
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                labels: {
+                                    fontSize: 18
+                                }
+                            },
+                            title: {
+                                display : true,
+                                text : "Corona Confirmed Cases",
+                                fontSize : 22.0
+                             },
+                            scales: {
+                                yAxes: [{
+                                    ticks:{
+                                        beginAtZero: true,
+                                        fontSize:15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Confirmed Cases',
+                                        fontSize :20.0,
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks:{
+                                      fontSize: 15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: "India's State Code ",
+                                        fontSize : 20.0,
+                                    }
+                                }]
+                              },
+                            responsive: true,
+                        }
+                    });
+                },
+                error:function(data){
+                    console.log('Error!');
+                }
+
+
+                
+
+            });
+
+
+
+
+
+          //Death Case Graph
+
+            function Death(data){
+                    console.log(data);
+
+
+
+                    for(var i=0;i<data.State_Code.length;i++){
+                    	var table = document.getElementById("StateTableRep");
+						  var row = table.insertRow(0);
+										  
+						  var cell1 = row.insertCell(0);
+						  var cell2 = row.insertCell(0);
+						  var cell3 = row.insertCell(0);
+						  var cell4 = row.insertCell(0);
+
+						  cell1.innerHTML = data.RecoveredCase[i];
+						  cell2.innerHTML = data.deathsCase[i];
+			  			  cell3.innerHTML = data.ConfirmedCase[i];
+			  			  cell4.innerHTML = data.State_Code[i];
+			  			  //row.style.fontWeight ="bold";
+			  			  if(data.ConfirmedCase[i]>1000){
+			  			  	row.style.backgroundColor="rgba(255, 0, 0, 0.1)";
+			  			  }
+			  			  else{
+			  			  	row.style.backgroundColor="rgba(62, 149, 205, 0.1)";	
+			  			  }
+			  
+						}
+						var table = document.getElementById("StateTableRep");
+						  var row = table.insertRow(0);
+										  
+						  var cell1 = row.insertCell(0);
+						  var cell2 = row.insertCell(0);
+						  var cell3 = row.insertCell(0);
+						  var cell4 = row.insertCell(0);
+
+						  cell1.innerHTML = "Recovered";
+						  cell2.innerHTML = "Death";
+			  			  cell3.innerHTML = "Confirmed";
+			  			  cell4.innerHTML = "State";
+			  			  row.style.fontWeight ="bolder";
+
+			  			  
+
+							
+
+
+
+
+
+
+					new Chart(document.getElementById("DeathChart"), {
+                        type: 'line',
+                        data: {
+                            labels: data.StateName,
+                            datasets: [
+                                {
+                                    label: "Corona Death Cases",
+                                    backgroundColor: "rgba(255, 0, 0, 0.2)",
+                                    borderColor : "rgba(255, 0, 0, 0.8)",
+                                    pointBackgroundColor: "rgba(255, 0, 0, 0.6)",
+                                    data: data.deathsCase,
+                                },
+                                
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                labels: {
+                                    fontSize: 18
+                                }
+                            },
+                            title: {
+                                display : true,
+                                text : "Corona Death Cases",
+                                fontSize : 22.0
+                             },
+                            scales: {
+                                yAxes: [{
+                                    ticks:{
+                                        beginAtZero: true,
+                                        fontSize:15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Death Cases',
+                                        fontSize :20.0,
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks:{
+                                      fontSize: 15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: "India's State Code ",
+                                        fontSize : 20.0,
+                                    }
+                                }]
+                              },
+                            responsive: true,
+                        }
+                    });
+                }
+                
+
+
+                
+
+            
+
+
+            //Recovered Cases
+           function Recovered(data){
+                    console.log(data);
+					new Chart(document.getElementById("RecoveredChart"), {
+                        type: 'line',
+                        data: {
+                            labels: data.StateName,
+                            datasets: [
+                                {
+                                    label: "Corona Recovered Case",
+                                    backgroundColor: "rgba(123, 239, 178, 0.2)",
+                                    borderColor : "rgba(30, 130, 76, 1)",
+                                    pointBackgroundColor: "rgba(0, 177, 106, 1)",
+                                    data: data.RecoveredCase,
+                                },
+                                
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                labels: {
+                                    fontSize: 18
+                                }
+                            },
+                            title: {
+                                display : true,
+                                text : "Corona Recovered Cases",
+                                fontSize : 22.0
+                             },
+                            scales: {
+                                yAxes: [{
+                                    ticks:{
+                                        beginAtZero: true,
+                                        fontSize:15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Recovered Cases',
+                                        fontSize :20.0,
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks:{
+                                      fontSize: 15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: "India's State Code ",
+                                        fontSize : 20.0,
+                                    }
+                                }]
+                              },
+                            responsive: true,
+                        }
+                    });
+                }
+
+
+                
+
+           
+
+
+
+function DistrictFun(data){
+	
+                    console.log(data);
+					new Chart(document.getElementById("DistrictArea"), {
+                        type: 'line',
+                        data: {
+                            labels: data.DistrictName,
+                            datasets: [
+                                {
+                                    label: "Corona Recovered Case",
+                                    backgroundColor: "rgba(255, 0,0,0.2)",
+                                    borderColor : "rgba(255, 0,0, 0.6)",
+                                    pointBackgroundColor: "rgba(255,0,0,0.8)",
+                                    data: data.ConfirmedCase,
+                                },
+                                
+                            ]
+                        },
+                        options: {
+                            legend: {
+                                labels: {
+                                    fontSize: 18
+                                }
+                            },
+                            title: {
+                                display : true,
+                                text : Dist+"'s' District Cases",
+                                fontSize : 22.0
+                             },
+                            scales: {
+                                yAxes: [{
+                                    ticks:{
+                                        beginAtZero: true,
+                                        fontSize:15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Corona Confirmed Cases',
+                                        fontSize :20.0,
+                                    }
+                                }],
+                                xAxes: [{
+                                    ticks:{
+                                      fontSize: 15.0,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: Dist+"'s' district ",
+                                        fontSize : 20.0,
+                                    }
+                                }]
+                              },
+                            responsive: true,
+                        }
+                    });
+                }
+
+
+                
+
+            
+
+
+
+        </script>
+    </body>
+</html>

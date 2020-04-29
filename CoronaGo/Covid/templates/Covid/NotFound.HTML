@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<style type="text/css">
+    ul li a{
+      color:white;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<!--Add Header-->
+<nav class="navbar navbar-expand-lg" style="background:grey;">
+  <a class="navbar-brand" href="/"><h2 style="font-weight:bolder;color:#00BFA6;font-family: 'Roboto Condensed', sans-serif;">CoronaGo</h2></a>
+  
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+     
+     
+    </ul>
+  </div>
+</nav>
+
+
+<!--Main Body-->
+
+<center>
+{%load static%}
+<div style="margin-top:5%;">
+  <img src="{%static 'Covid/undraw_page_not_found_su7k.svg'%}" style="width:50%;">
+</div>
+
+<a href="/" class="btn btn-danger" style="margin-top:2%;padding:10px 10px 10px 10px;">Back To Home</a>
+
+</center>
+<footer style="background-color: grey;color:white;width:100%;margin-bottom:0px;padding:8px;">
+    <p style="text-align:center;padding-top:8px;">Copyright © <span id="year" ></span> <span style="color:#00BFA6;">CoronaGo</span> all rights reserved</p>
+</footer>
+</body>
+<script type="text/javascript">
+  function Copyright(){
+                var d = new Date();
+                var year=d.getFullYear();
+                document.getElementById("year").innerHTML=year;
+            }
+
+            Copyright();
+</script>
+</html>

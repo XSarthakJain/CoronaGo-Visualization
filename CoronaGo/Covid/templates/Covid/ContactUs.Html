@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<style type="text/css">ul li a{
+  color:white;
+}
+a:hover{
+  text-decoration:none;
+}
+
+  </style>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=278047389660432&autoLogAppEvents=1"></script>
+
+</head>
+<body>
+
+
+
+<!--Add Header-->
+<nav class="navbar navbar-expand-lg" style="background:grey;
+">
+  <a class="navbar-brand" href="/"><h2 style="font-weight: bolder;color:#00BFA6;margin-top: -5px;">CoronaGo</h2></a>
+ 
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav" >
+      
+     
+    </ul>
+  </div>
+</nav>
+
+
+<!--Main Body-->
+{%load static%}
+<div class="container" style="margin-top:2%;">
+
+<div class="row">
+
+  <div class="col-sm-6">
+<center>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3548.4931001177965!2d77.9586097938728!3d27.2036642275666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3974778d7be4b8a3%3A0x8309c2a9a1b74cdc!2sKarkunj%20Rd%2C%20Avas%20Vikas%20Colony%2C%20Sikandra%2C%20Agra%2C%20Uttar%20Pradesh%20282007!5e0!3m2!1sen!2sin!4v1585661836003!5m2!1sen!2sin" style="width:80%;height:60vh;align-content: center;" frameborder="0" style="border:0;margin-bottom:2%;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+  </center>
+  </div>
+  <div class="col-sm-6" >
+    <div style="margin-left:5%;">
+    <img src="{%static 'Covid/testimonials-2.png'%}" style="width:140px;height:180px;" title="sarthak Jain">
+    <h2 style="color:#00BFA6;font-weight: bolder">Sarthak Jain</h2>
+    <br><br>
+    <p style="color:grey;font-size:15px;"> Hello Guys I am Sarthak Jain, student of MCA Second Year of Hindustan Institute of Management and Computer Studies.</p>
+    <h5><i class="glyphicon glyphicon-envelope" style="margin-right:5px;"></i>sarthakjain31797@gmail.com</h5>
+
+    <h4 class="glyphicon glyphicon-earphone">8938878482</h4>
+    <h4><i class="fa fa-linkedin-square" style="font-size:24px;margin-right:5px;"></i><a href="https://www.linkedin.com/in/sarthak-jain-4aa28116b">LinkedIn</a>
+</h4>
+    <h4><i class="fa fa-github" style="font-size:24px;margin-right:5px;"></i><a href="https://github.com/XSarthakJain">Github</a></h4>
+
+    <h4><i class="fa fa-globe" style="font-size: 1.5em;margin-right:5px;"></i><a href="http://teamdevil.freevar.com/">TeamDevil</a></h4>
+
+    <h4><i class="fa fa-youtube-play" style="font-size: 1.5em;margin-right:5px;"></i><a href="https://www.youtube.com/channel/UCYO3NXu0rK7v0l1iO6smkZw/">YouTube</a></h4>
+   
+    </div>
+  </div>
+</div>
+</div>
+  
+
+<div class="container-fluid" style="margin-top:10px;padding-top:5%;padding-bottom:5%;width:100%;background-color:grey;">
+
+    <center>
+      <h2 style="color:#00bfa6;font-weight: bolder;">Comment & Like</h2>
+    <div class="fb-like" data-href="http://127.0.0.1:8000/ContactUs" data-width="" data-layout="standard" data-action="like" data-size="large" data-share="true" style="color:#00BFA6;"></div>
+
+    <br><br>
+    <div style="">
+    <div class="fb-comments" data-href="http://12.0.0.1:8000/ContactUs" data-width ="" data-numposts="5" style="color:red;border:1px solid rgb(83,83,83);">
+    </div>
+  </div>
+  </center>
+</div>
+
+<footer style="background-color: grey;color:white;width:100%;margin-bottom:0px;padding:8px;">
+    <p style="text-align:center;padding-top:8px;">Copyright © <span id="year" ></span> <span style="color:#00BFA6;">CoronaGo</span> all rights reserved</p>
+</footer>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script type="text/javascript">
+  function Copyright(){
+                var d = new Date();
+                var year=d.getFullYear();
+                document.getElementById("year").innerHTML=year;
+            }
+
+            Copyright();
+</script>
+</html>
