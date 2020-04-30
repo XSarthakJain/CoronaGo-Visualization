@@ -32,7 +32,7 @@ def data1(request):
 		url = "https://corona-virus-world-and-india-data.p.rapidapi.com/api_india"
 		headers = {
 		    'x-rapidapi-host': "corona-virus-world-and-india-data.p.rapidapi.com",
-		    'x-rapidapi-key': "513c39709amshabd759dbcc2c80cp18a79ajsnef11a22431b7"
+		    'x-rapidapi-key': ""
 		    }
 
 		response = requests.request("GET", url, headers=headers)

@@ -83,11 +83,7 @@
 
 
 <nav style="background:grey;padding-bottom: 10px;padding-top:5px;">
-	
-          
-          
-  
-  
+       
     <ul  style="display:flex;list-style:none;">
 
     	<li>
@@ -159,16 +155,18 @@
 		</div>
 		<br><br>
 		<table id="Result_Div" class="table table-bordered" align="center">
-			<thead>
-			
+			<thead>			
 			</thead>
 		</table>
 	</center>
 	</div>
 	<center>
 	<div style="position:absolute;top:15%;left:2%;background: rgba(0,0,0,0.1);">
-	        	<center><h2>World Infected's Areas</h2></center>
-	        </div></center>
+	        <center>
+	        	<h2>World Infected's Areas</h2>
+	        </center>
+	</div>
+</center>
 </div>
 
 <footer style="background-color: grey;color:white;width:100%;margin-bottom:0px;padding:8px;">
@@ -201,7 +199,7 @@ zoom:0,
 
 
 
-	mapboxgl.accessToken = 'pk.eyJ1Ijoic2FydGhha2phaW4iLCJhIjoiY2s5OHRpbWc1MDVkYzNqcGZzYzRiYW83cCJ9.MFGWTrehq7rxvNQukVmQ0w';
+	mapboxgl.accessToken = '';
 var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/mapbox/dark-v10',
@@ -214,10 +212,8 @@ zoom:0,
 <script type="text/javascript">
 	
 
-	function UpdateMap()
-
-{
-
+function UpdateMap()
+	{
 	fetch('/data/')
 	.then(response => response.json())
 	.then(rsp => {
